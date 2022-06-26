@@ -60,7 +60,7 @@ class _LoginBodyState extends State<LoginBody> {
           providerLoginUser.itemUserLogin = itemUserLogin;
           Navigator.pushReplacementNamed(context, '/beranda');
         },
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(18),
         color: Colors.blue,
         child: Text('Log In', style: TextStyle(color: Colors.white)),
       ),
@@ -80,7 +80,7 @@ class _LoginBodyState extends State<LoginBody> {
           providerLoginUser.itemUserLogin = itemUserLogin;
           Navigator.pushReplacementNamed(context, '/beranda');
         },
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(18),
         color: Colors.blue,
         child: Text('Log In Admin', style: TextStyle(color: Colors.white)),
       ),

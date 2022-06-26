@@ -12,7 +12,9 @@ class _ManageUserScreenState extends State<ManageUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
+      appBar: AppBar(
+        title: Text('Add User'),
+      ),
       body: ManageUserBody(),
     );
   }

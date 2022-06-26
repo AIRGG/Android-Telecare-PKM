@@ -70,6 +70,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontFamily: "Poppins"),
               ),
+              SizedBox(height: 30),
               ProfileListItems(),
             ],
           ),

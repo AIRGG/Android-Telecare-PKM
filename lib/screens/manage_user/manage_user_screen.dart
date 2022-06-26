@@ -1,4 +1,5 @@
 import 'package:android_telecare_pkm/screens/manage_user/components/manage_user_body.dart';
+import 'package:android_telecare_pkm/size_config.dart';
 import 'package:flutter/material.dart';
 
 class ManageUserScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class ManageUserScreen extends StatefulWidget {
 class _ManageUserScreenState extends State<ManageUserScreen> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Add User'),

@@ -1,3 +1,5 @@
+import 'package:android_telecare_pkm/models/login_user_model.dart';
+import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/screens/beranda/components/beranda_body.dart';
 import 'package:android_telecare_pkm/screens/manage_user/manage_user_screen.dart';
 import 'package:android_telecare_pkm/screens/profile/profile_screen.dart';
@@ -7,6 +9,7 @@ import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class BerandaScreen extends StatefulWidget {
   BerandaScreen({Key? key}) : super(key: key);
@@ -65,29 +68,38 @@ class _BerandaScreenState extends State<BerandaScreen>
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    var providerLoginUser = Provider.of<LoginUserProvider>(context);
+    LoginUserModel? itemUserLogin;
+    itemUserLogin = providerLoginUser.itemUserLogin;
     return Scaffold(
-      appBar: null,
+      appBar: AppBar(
+          title: Text('Monitoring'), backgroundColor: HexColor('#235997')),
+      // appBar: null,
       // body: NavigationScreen(
       //   iconList[_bottomNavIndex],
       // ),
       body: widgetList[_bottomNavIndex],
-      floatingActionButton: ScaleTransition(
-        scale: animation,
-        child: FloatingActionButton(
-          elevation: 8,
-          backgroundColor: HexColor('#FFA400'),
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            _animationController.reset();
-            Navigator.pushNamed(context, '/manage-user');
-            _animationController.forward();
-          },
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: (itemUserLogin.role == 'admin')
+          ? ScaleTransition(
+              scale: animation,
+              child: FloatingActionButton(
+                elevation: 8,
+                backgroundColor: HexColor('#FFA400'),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _animationController.reset();
+                  Navigator.pushNamed(context, '/manage-user');
+                  _animationController.forward();
+                },
+              ),
+            )
+          : null,
+      floatingActionButtonLocation: (itemUserLogin.role == 'admin')
+          ? FloatingActionButtonLocation.centerDocked
+          : null,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: iconList,
         backgroundColor: HexColor('#235997'),

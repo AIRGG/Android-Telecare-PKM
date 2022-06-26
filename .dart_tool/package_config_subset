@@ -2,6 +2,10 @@ android_telecare_pkm
 2.17
 file:///C:/Users/AIRGG/Desktop/Lomba/PKM/__exp__/android_telecare_pkm/
 file:///C:/Users/AIRGG/Desktop/Lomba/PKM/__exp__/android_telecare_pkm/lib/
+animated_bottom_navigation_bar
+2.12
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/animated_bottom_navigation_bar-1.0.0/
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/animated_bottom_navigation_bar-1.0.0/lib/
 async
 2.12
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.8.2/
@@ -18,6 +22,10 @@ charcode
 2.12
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.3.1/
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.3.1/lib/
+circular_reveal_animation
+2.12
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/circular_reveal_animation-2.0.1/
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/circular_reveal_animation-2.0.1/lib/
 clock
 2.12
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/
@@ -130,6 +138,10 @@ path_provider_windows
 2.17
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.0/
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.0/lib/
+persistent_bottom_nav_bar
+2.12
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/persistent_bottom_nav_bar-4.0.2/
+file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/persistent_bottom_nav_bar-4.0.2/lib/
 platform
 2.12
 file:///D:/Project/__INCLUDE__/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.1.0/

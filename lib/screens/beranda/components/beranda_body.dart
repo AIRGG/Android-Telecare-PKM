@@ -58,7 +58,7 @@ class _BerandaBodyState extends State<BerandaBody> {
   }
 
   /// Returns the realtime Cartesian line chart.
-  SfCartesianChart _buildLiveLineChart() {
+  SfCartesianChart get _buildLiveLineChart {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
@@ -115,6 +115,61 @@ class _BerandaBodyState extends State<BerandaBody> {
           SizedBox(
             height: 24,
           ),
+          // SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Suhu Tubuh',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AvatarImage(),
+              Text(
+                '18\u2103',
+                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Denyut Jantung',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AvatarImage(),
+              Row(
+                children: [
+                  Text(
+                    '95',
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'bpm',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            ],
+          ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Sp O2',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -125,27 +180,19 @@ class _BerandaBodyState extends State<BerandaBody> {
               )
             ],
           ),
+          SizedBox(height: 50),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-              )
+              Text('ECG',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          _buildLiveLineChart()
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: _buildLiveLineChart,
+          )
         ],
       ),
     );
@@ -215,7 +262,7 @@ class AvatarImage extends StatelessWidget {
             shape: BoxShape.circle,
             image: DecorationImage(
               image: NetworkImage(
-                  'https://randomuser.me/api/portraits/lego/5.jpg'),
+                  'https://randomuser.me/api/portraits/lego/6.jpg'),
             ),
           ),
         ),

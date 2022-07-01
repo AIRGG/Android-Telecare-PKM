@@ -73,7 +73,10 @@ class _BerandaScreenState extends State<BerandaScreen>
     itemUserLogin = providerLoginUser.itemUserLogin;
     return Scaffold(
       appBar: AppBar(
-          title: Text('Monitoring'), backgroundColor: HexColor('#235997')),
+        title: Text('Monitoring'),
+        // backgroundColor: HexColor('#235997')
+        backgroundColor: Colors.blue,
+      ),
       // appBar: null,
       // body: NavigationScreen(
       //   iconList[_bottomNavIndex],
@@ -102,8 +105,10 @@ class _BerandaScreenState extends State<BerandaScreen>
           : null,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: iconList,
-        backgroundColor: HexColor('#235997'),
+        // backgroundColor: HexColor('#235997'),
+        backgroundColor: Colors.blue,
         activeIndex: _bottomNavIndex,
+        // activeColor: Colors.amber,
         activeColor: HexColor('#FFA400'),
         // splashColor: HexColor('#FFA400'),
         inactiveColor: Colors.white,

@@ -58,7 +58,9 @@ class _LoginBodyState extends State<LoginBody> {
               role: 'user',
               name: 'Budiantoro');
           providerLoginUser.itemUserLogin = itemUserLogin;
-          Navigator.pushReplacementNamed(context, '/beranda');
+          // Navigator.pushReplacementNamed(context, '/beranda');
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/beranda', (route) => false);
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,
@@ -78,7 +80,9 @@ class _LoginBodyState extends State<LoginBody> {
               role: 'admin',
               name: 'Administrator');
           providerLoginUser.itemUserLogin = itemUserLogin;
-          Navigator.pushReplacementNamed(context, '/beranda');
+          // Navigator.pushReplacementNamed(context, '/beranda');
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/beranda', (route) => false);
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,

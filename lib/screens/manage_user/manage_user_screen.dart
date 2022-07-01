@@ -15,9 +15,22 @@ class _ManageUserScreenState extends State<ManageUserScreen> {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add User'),
+        title: Text('Manage User'),
       ),
       body: ManageUserBody(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30, right: 20),
+        child: FloatingActionButton(
+          elevation: 8,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, '/manage-user-add');
+          },
+        ),
+      ),
     );
   }
 }

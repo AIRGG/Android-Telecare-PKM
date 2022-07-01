@@ -91,7 +91,10 @@ class _LoginBodyState extends State<LoginBody> {
         'Forgot password?',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/forget-password');
+        // Navigator.pushReplacementNamed(context, '/forget-password');
+      },
     );
 
     return Center(
@@ -107,7 +110,7 @@ class _LoginBodyState extends State<LoginBody> {
           SizedBox(height: 24.0),
           loginButton,
           loginButtonAdmin,
-          // forgotLabel,
+          forgotLabel,
         ],
       ),
     );

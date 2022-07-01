@@ -10,73 +10,107 @@ class ManageUserBody extends StatefulWidget {
 class ManageUserBodyState extends State<ManageUserBody> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(25),
+          child: Column(
             children: <Widget>[
-          SizedBox(height: 24.0),
-          logo,
-          SizedBox(height: 48.0),
-          txt_nama,
-          SizedBox(height: 8.0),
-          txt_email,
-          SizedBox(height: 8.0),
-          txt_password,
-          SizedBox(height: 24.0),
-          saveButton,
-        ]));
+              // SizedBox(height: 30),
+              ProfileListItems(),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
 
-final logo = Hero(
-  tag: 'hero',
-  child: CircleAvatar(
-    backgroundColor: Colors.transparent,
-    radius: 48.0,
-    child: Image.network('https://picsum.photos/500?image=8'),
-  ),
+final kTitleTextStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
 );
 
-final txt_nama = TextFormField(
-  keyboardType: TextInputType.text,
-  autofocus: false,
-  decoration: InputDecoration(
-    hintText: 'Nama',
-    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-  ),
-);
+class ProfileListItems extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          InkWell(
+            onTap: () => {
+              // Navigator.pushReplacementNamed(context, '/login')
+            },
+            child: ProfileListItem(
+              icon: Icons.person,
+              text: 'Budiantoro',
+              hasNavigation: false,
+            ),
+          ),
+          InkWell(
+            onTap: () => {
+              // Navigator.pushReplacementNamed(context, '/login')
+            },
+            child: ProfileListItem(
+              icon: Icons.person,
+              text: 'Bambang',
+              hasNavigation: false,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-final txt_email = TextFormField(
-  keyboardType: TextInputType.emailAddress,
-  autofocus: false,
-  decoration: InputDecoration(
-    hintText: 'Email',
-    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-  ),
-);
+class ProfileListItem extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final bool hasNavigation;
 
-final txt_password = TextFormField(
-  autofocus: false,
-  obscureText: true,
-  decoration: InputDecoration(
-    hintText: 'Password',
-    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-  ),
-);
+  const ProfileListItem({
+    Key? key,
+    required this.icon,
+    required this.text,
+    this.hasNavigation = true,
+  }) : super(key: key);
 
-final saveButton = Padding(
-  padding: EdgeInsets.symmetric(vertical: 16.0),
-  child: RaisedButton(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
-    onPressed: () {},
-    padding: EdgeInsets.all(18),
-    color: Colors.blue,
-    child: Text('Save', style: TextStyle(color: Colors.white)),
-  ),
-);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 55,
+      margin: EdgeInsets.symmetric(
+        horizontal: 10,
+      ).copyWith(
+        bottom: 20,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.grey.shade300,
+      ),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            this.icon,
+            size: 25,
+          ),
+          SizedBox(width: 15),
+          Text(
+            this.text,
+            style: kTitleTextStyle.copyWith(
+                fontWeight: FontWeight.w500, fontFamily: "Poppins"),
+          ),
+          Spacer(),
+          if (this.hasNavigation)
+            Icon(
+              Icons.arrow_left,
+              size: 25,
+            ),
+        ],
+      ),
+    );
+  }
+}

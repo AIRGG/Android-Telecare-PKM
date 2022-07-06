@@ -127,10 +127,15 @@ class _BerandaBodyState extends State<BerandaBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Text(
-                '18\u2103',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              SuhuImage(),
+              Column(
+                children: [
+                  Text(
+                    '36\u2103',
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  Text('Status: Baik')
+                ],
               )
             ],
           ),
@@ -146,17 +151,24 @@ class _BerandaBodyState extends State<BerandaBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Row(
+              DenyutImage(),
+              Column(
                 children: [
-                  Text(
-                    '95',
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      Text(
+                        '65',
+                        style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'bpm',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'bpm',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  Text('Status: Baik')
                 ],
               )
             ],
@@ -165,7 +177,7 @@ class _BerandaBodyState extends State<BerandaBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Sp O2',
+              Text('Saturasi Oksigen',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             ],
           ),
@@ -173,10 +185,15 @@ class _BerandaBodyState extends State<BerandaBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              SaturasiImage(),
+              Column(
+                children: [
+                  Text(
+                    '95%',
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  Text('Status: Baik')
+                ],
               )
             ],
           ),
@@ -246,23 +263,20 @@ BoxDecoration avatarDecoration =
   ),
 ]);
 
-class AvatarImage extends StatelessWidget {
+class SuhuImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150,
       height: 150,
       padding: EdgeInsets.all(8),
-      decoration: avatarDecoration,
       child: Container(
-        decoration: avatarDecoration,
         padding: EdgeInsets.all(3),
         child: Container(
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            // shape: BoxShape.circle,
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://randomuser.me/api/portraits/lego/6.jpg'),
+              image: AssetImage('assets/icons/suhu.png'),
             ),
           ),
         ),
@@ -270,3 +284,73 @@ class AvatarImage extends StatelessWidget {
     );
   }
 }
+
+class DenyutImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      padding: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage('assets/icons/denyut.png'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SaturasiImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      padding: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage('assets/icons/saturasi.png'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// class AvatarImage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 150,
+//       height: 150,
+//       padding: EdgeInsets.all(8),
+//       decoration: avatarDecoration,
+//       child: Container(
+//         decoration: avatarDecoration,
+//         padding: EdgeInsets.all(3),
+//         child: Container(
+//           decoration: BoxDecoration(
+//             shape: BoxShape.circle,
+//             image: DecorationImage(
+//               image: NetworkImage(
+//                   'https://randomuser.me/api/portraits/lego/6.jpg'),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

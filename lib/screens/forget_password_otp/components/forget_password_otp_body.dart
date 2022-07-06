@@ -15,7 +15,10 @@ class _ForgetPasswordOTPBodyState extends State<ForgetPasswordOTPBody> {
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 48.0,
-        child: Image.network('https://picsum.photos/500?image=8'),
+        child: Image.asset(
+          'assets/imgs/logo2.png',
+        ),
+        // child: Image.network('https://picsum.photos/500?image=8'),
       ),
     );
 

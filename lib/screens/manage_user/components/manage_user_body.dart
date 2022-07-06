@@ -40,6 +40,7 @@ class ProfileListItems extends StatelessWidget {
           InkWell(
             onTap: () => {
               // Navigator.pushReplacementNamed(context, '/login')
+              Navigator.pushNamed(context, '/manage-user-detail')
             },
             child: ProfileListItem(
               icon: Icons.person,
@@ -50,6 +51,7 @@ class ProfileListItems extends StatelessWidget {
           InkWell(
             onTap: () => {
               // Navigator.pushReplacementNamed(context, '/login')
+              Navigator.pushNamed(context, '/manage-user-detail')
             },
             child: ProfileListItem(
               icon: Icons.person,

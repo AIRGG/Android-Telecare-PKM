@@ -14,7 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: null,
+      appBar: AppBar(title: Text('Profile')),
       body: ProfileBody(),
     );
   }

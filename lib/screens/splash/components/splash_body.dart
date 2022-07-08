@@ -41,7 +41,12 @@ class _SplashBodyState extends State<SplashBody> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network('https://picsum.photos/250?image=9')
+            Image.asset(
+              'assets/imgs/logo1.png',
+              height: 400,
+              width: 400,
+            ),
+            // Image.network('https://picsum.photos/250?image=9')
           ],
         ),
       ],

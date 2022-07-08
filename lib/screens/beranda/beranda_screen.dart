@@ -3,6 +3,8 @@ import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/screens/beranda/components/beranda_body.dart';
 import 'package:android_telecare_pkm/screens/manage_user/manage_user_screen.dart';
 import 'package:android_telecare_pkm/screens/profile/profile_screen.dart';
+import 'package:android_telecare_pkm/screens/riwayat_medis/components/riwayat_medis_body.dart';
+import 'package:android_telecare_pkm/screens/riwayat_medis/riwayat_medis_screen.dart';
 import 'package:android_telecare_pkm/size_config.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
@@ -28,10 +30,12 @@ class _BerandaScreenState extends State<BerandaScreen>
 
   final iconList = <IconData>[
     Icons.home,
-    Icons.person,
+    // Icons.person,
+    Icons.list
   ];
 
-  final widgetList = <Widget>[BerandaBody(), ProfileScreen()];
+  final widgetList = <Widget>[BerandaBody(), RiwayatMedisScreen()];
+  // final widgetList = <Widget>[BerandaBody(), ProfileScreen()];
 
   @override
   void initState() {
@@ -76,6 +80,18 @@ class _BerandaScreenState extends State<BerandaScreen>
         title: Text('Monitoring'),
         // backgroundColor: HexColor('#235997')
         backgroundColor: Colors.blue,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // do something
+              Navigator.pushNamed(context, '/profile');
+            },
+          )
+        ],
       ),
       // appBar: null,
       // body: NavigationScreen(

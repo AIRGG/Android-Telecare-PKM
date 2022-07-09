@@ -17,7 +17,7 @@ class _SplashBodyState extends State<SplashBody> {
   }
 
   startSplash() async {
-    var duration = const Duration(seconds: 3);
+    var duration = const Duration(seconds: 7);
     return Timer(duration, () {
       Navigator.pushReplacementNamed(context, "/login");
     });
@@ -41,7 +41,12 @@ class _SplashBodyState extends State<SplashBody> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network('https://picsum.photos/250?image=9')
+            Image.asset(
+              'assets/imgs/logo1.png',
+              height: 400,
+              width: 400,
+            ),
+            // Image.network('https://picsum.photos/250?image=9')
           ],
         ),
       ],

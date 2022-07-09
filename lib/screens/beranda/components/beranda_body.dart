@@ -58,7 +58,7 @@ class _BerandaBodyState extends State<BerandaBody> {
   }
 
   /// Returns the realtime Cartesian line chart.
-  SfCartesianChart _buildLiveLineChart() {
+  SfCartesianChart get _buildLiveLineChart {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
@@ -115,37 +115,101 @@ class _BerandaBodyState extends State<BerandaBody> {
           SizedBox(
             height: 24,
           ),
+          // SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Suhu Tubuh',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              SuhuImage(),
+              Column(
+                children: [
+                  Text(
+                    '36\u2103',
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  Text('Status: Baik')
+                ],
               )
             ],
           ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Denyut Jantung',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              DenyutImage(),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '65',
+                        style: TextStyle(
+                            fontSize: 50, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'bpm',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Text('Status: Baik')
+                ],
               )
             ],
           ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Saturasi Oksigen',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AvatarImage(),
-              Text(
-                '18%',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              SaturasiImage(),
+              Column(
+                children: [
+                  Text(
+                    '95%',
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                  Text('Status: Baik')
+                ],
               )
             ],
           ),
-          _buildLiveLineChart()
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('ECG',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: _buildLiveLineChart,
+          )
         ],
       ),
     );
@@ -199,23 +263,20 @@ BoxDecoration avatarDecoration =
   ),
 ]);
 
-class AvatarImage extends StatelessWidget {
+class SuhuImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150,
       height: 150,
       padding: EdgeInsets.all(8),
-      decoration: avatarDecoration,
       child: Container(
-        decoration: avatarDecoration,
         padding: EdgeInsets.all(3),
         child: Container(
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            // shape: BoxShape.circle,
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://randomuser.me/api/portraits/lego/5.jpg'),
+              image: AssetImage('assets/icons/suhu.png'),
             ),
           ),
         ),
@@ -223,3 +284,73 @@ class AvatarImage extends StatelessWidget {
     );
   }
 }
+
+class DenyutImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      padding: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage('assets/icons/denyut.png'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SaturasiImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      padding: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage('assets/icons/saturasi.png'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// class AvatarImage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 150,
+//       height: 150,
+//       padding: EdgeInsets.all(8),
+//       decoration: avatarDecoration,
+//       child: Container(
+//         decoration: avatarDecoration,
+//         padding: EdgeInsets.all(3),
+//         child: Container(
+//           decoration: BoxDecoration(
+//             shape: BoxShape.circle,
+//             image: DecorationImage(
+//               image: NetworkImage(
+//                   'https://randomuser.me/api/portraits/lego/6.jpg'),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

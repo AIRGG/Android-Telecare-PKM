@@ -1,6 +1,8 @@
 import 'package:android_telecare_pkm/models/login_user_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {
@@ -11,6 +13,19 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
+  Future<void> handleLogin() async {
+    try {
+      Map res = await HttpUtil().req("/login", body: {
+        'email': 'alvinrayhan4@gmail.com',
+        'password': 'heartware111'
+      });
+      print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var providerLoginUser = Provider.of<LoginUserProvider>(context);
@@ -92,6 +107,20 @@ class _LoginBodyState extends State<LoginBody> {
         child: Text('Log In Admin', style: TextStyle(color: Colors.white)),
       ),
     );
+    final testingButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {
+          handleLogin();
+        },
+        padding: EdgeInsets.all(18),
+        color: Colors.blue,
+        child: Text('Log In Admin', style: TextStyle(color: Colors.white)),
+      ),
+    );
 
     final forgotLabel = FlatButton(
       child: Text(
@@ -117,6 +146,7 @@ class _LoginBodyState extends State<LoginBody> {
           SizedBox(height: 24.0),
           loginButton,
           loginButtonAdmin,
+          testingButton,
           forgotLabel,
         ],
       ),

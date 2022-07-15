@@ -1,3 +1,4 @@
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
 
 class ManageUserBody extends StatefulWidget {
@@ -8,6 +9,45 @@ class ManageUserBody extends StatefulWidget {
 }
 
 class ManageUserBodyState extends State<ManageUserBody> {
+  Future<void> handleGetListUser() async {
+    try {
+      Map res = await HttpUtil().reqget("/user", body: {});
+      print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  Future<void> handleAddUser() async {
+    try {
+      Map res = await HttpUtil().req("/user/create", body: {
+        'name': 'TestAndroid1',
+        'username': 'testandroid1',
+        'handphone': '123456789012',
+        'email': 'testandroid1@gmail.com',
+        'password': '123',
+        'is_admin': '1',
+      });
+      print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  Future<void> handleDeleteUser() async {
+    try {
+      Map res = await HttpUtil().req("/user/delete", body: {
+        'id': '5',
+      });
+      print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,7 +56,22 @@ class ManageUserBodyState extends State<ManageUserBody> {
           padding: EdgeInsets.all(25),
           child: Column(
             children: <Widget>[
-              // SizedBox(height: 30),
+              SizedBox(height: 30),
+              ElevatedButton(
+                  onPressed: () => {
+                        handleGetListUser(),
+                      },
+                  child: Text('Get Data')),
+              ElevatedButton(
+                  onPressed: () => {
+                        handleAddUser(),
+                      },
+                  child: Text('Add Data')),
+              ElevatedButton(
+                  onPressed: () => {
+                        handleDeleteUser(),
+                      },
+                  child: Text('Delete Data')),
               ProfileListItems(),
             ],
           ),

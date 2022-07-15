@@ -51,6 +51,16 @@ class _ManageUserAddBodyState extends State<ManageUserAddBody> {
       ),
     );
 
+    final txt_nohp = TextFormField(
+      keyboardType: TextInputType.text,
+      autofocus: false,
+      decoration: InputDecoration(
+        hintText: 'NoHp',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
     final txt_password = TextFormField(
       autofocus: false,
       obscureText: true,
@@ -94,11 +104,13 @@ class _ManageUserAddBodyState extends State<ManageUserAddBody> {
           SizedBox(height: 24.0),
           logo,
           SizedBox(height: 48.0),
-          txt_username,
-          SizedBox(height: 8.0),
           txt_nama,
           SizedBox(height: 8.0),
+          txt_nohp,
+          SizedBox(height: 8.0),
           txt_email,
+          SizedBox(height: 8.0),
+          txt_username,
           SizedBox(height: 8.0),
           txt_password,
           SizedBox(height: 8.0),

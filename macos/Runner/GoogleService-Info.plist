@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>431646922547-c3d0uqfmd8bet2fgjm0pl2u71mblsls3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.431646922547-c3d0uqfmd8bet2fgjm0pl2u71mblsls3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB3IklRCEd4pYcYtkWHp806ynu_DwIxhNo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>431646922547</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.androidTelecarePkm</string>
+	<key>PROJECT_ID</key>
+	<string>telecare-push-notification</string>
+	<key>STORAGE_BUCKET</key>
+	<string>telecare-push-notification.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:431646922547:ios:218dd216ea9f951135d046</string>
+	<key>DATABASE_URL</key>
+	<string>https://telecare-push-notification-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

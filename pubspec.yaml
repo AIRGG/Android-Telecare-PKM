@@ -42,9 +42,15 @@ dependencies:
   circular_reveal_animation: ^2.0.1
   syncfusion_flutter_charts: ^20.1.61
 
+  firebase_core: ^1.20.0
+  firebase_analytics: ^9.2.1
+  firebase_messaging: ^12.0.1
+  flutter_local_notifications: ^9.7.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

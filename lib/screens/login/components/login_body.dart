@@ -2,8 +2,37 @@ import 'package:android_telecare_pkm/models/login_user_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/subjects.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+final AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('app_icon');
+final InitializationSettings initializationSettings =
+    InitializationSettings(android: initializationSettingsAndroid);
+String? selectedNotificationPayload;
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+    BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String?> selectNotificationSubject =
+    BehaviorSubject<String?>();
+
+class ReceivedNotification {
+  ReceivedNotification({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final int id;
+  final String? title;
+  final String? body;
+  final String? payload;
+}
 
 class LoginBody extends StatefulWidget {
   LoginBody({Key? key}) : super(key: key);
@@ -24,6 +53,28 @@ class _LoginBodyState extends State<LoginBody> {
       print(err);
       throw err;
     }
+  }
+
+  Future<void> _showNotification() async {
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+      }
+      selectedNotificationPayload = payload;
+      selectNotificationSubject.add(payload);
+    });
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'plain title', 'plain body', platformChannelSpecifics,
+        payload: 'item x');
   }
 
   @override
@@ -114,7 +165,8 @@ class _LoginBodyState extends State<LoginBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          handleLogin();
+          // handleLogin();
+          _showNotification();
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,

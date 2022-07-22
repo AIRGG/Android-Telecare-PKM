@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "telecare-push-notification",
+  "private_key_id": "fc4ee9528983a35e492bc105f48c1ccc1e6e7489",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDg/rIqBrLjdx1q\nQ72XmlPCRqwFUQa+HGvSJLzNkaGMIWmc4idwL3TevGrWxzYiroD6uGXe1tdLjsvI\nrbv+4d7J9zbqoIqzlo0VhNR/LgFEKS+juxLo5iXiubS1iRGJRtwavm+1jeQvfX2z\nhD6RuJ3wpxWrYMfdh6gEWY88CnXtutdkTWOTcLEdL+em/HaBhKGvA5SMUL1UbLe7\nFiVFKuzPi5z5zKrX+JOxjk4yGJIMCmdSqJXXhZ++mPW5i0fTEuB6tljLh+2HZXbZ\nU1em9xX7DGCoUJNlv7dxZMrzEyawbKitQDDZFpA3yzo5/osIiJoztI1B++ZO75gt\nqpRgCFstAgMBAAECggEAD9C/d9ZMNVKOagWUemdh+15J4b7KFUt8pcMo1V9nBmlj\n2eAIyyk+0xhV/z52FvaCwPz8xi7+Z8SEHRlfRWGdrj83KEN8NHcA+FIDuOPkOWUW\nwPDZua7R22/X3Mnjhm2Jc8TOp+mvMEpnL1r8pfQfAAdSrd8J9Y+/VvzvpVYL55ew\npKarblogI62AJyFWTjvP/7QutYz8chfbzz7f1KSJf5xmhNS1lBhOyQW1n2RGqRWL\nxATBEEoQlX8hAiLDw08gdeNg5Y6WAsehEb/nqVkK/lm9E2sFD4MYo3nCx/rtdQwA\nOVvBkpG1j//nXTEx4RewdcIF8sN6cYA7E9XqpGSH0QKBgQD0qcce1Jvx6mbf0Eo/\nELNYuIr/uslObHXLqGZJt5RT7zWthHz7ji9TwMrZVCuWn5wPpQCLSYOtG/oV5nyf\nB/iJ0pJwBPi3XobUHgAYdTgr3Jalj0nXVEGoC8EmcYNYyMdSQadpAQ+M0LCm2X9+\nEDfDihCERLdXZt+izKrcrndDEQKBgQDra5xW41Z6G3OkUXriu7TOWGPp9B/yb/h7\nyWgnRGGd2wU5yPXN5AdbSmnB6PK+oxZQJRq4dekdYSkUBLHHVtdjgbVO0h57lrYM\nub4rcFWvu+uWG1dQMKipGfUmg5szJF978DQMf0eCdBFKASXQbHft9q0tzYXXm6EQ\nHlsslUkeXQKBgQC2Husp9/ldSq7pS5L4/uWB1V0in1faGMJWpzP9C7pOAHJkh4rB\ndkWkgo582DraFFWHD7wn8sEhywGN69Q4TSak8SowWIMLfEHBA9PuYNM/UySQeOju\ncLmu7ZEJnNW48Tvt7xE/CJsapv3YNW7B2DCqTcudqckQNnOiK9fEDdqZAQKBgBif\n1eeEufvluS/b0fW7Wosm1bSX82uBaMVR6NIKpgdD7IUBzywtCNP0saE1w4ZLOr9B\nUk0vECYhjpFoeEv4emkPHS7UbZnRxtMH7qtOgbfy+Q5nZ7ecj1e4vlq781TjHhWx\np1ATVCCCEXjjK9hkMBs07SJYWAKYZb1w32qHZvGFAoGAUlCmslRFE9+g4uVVdLdh\nej1HA7aons3PUW3YdrY558LYOAb3ycdegx+B44NGf5XdQq/VA9saGlcDiyaio8b4\nsAL05EJKxWdSf5mroEDHs3+lBXmgBMkxU1GmLUCb1QLBt3uFQ2rlIyM1Arm6Qe1g\nU/qRv7DcPt261ND/8MCCAu4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-89svj@telecare-push-notification.iam.gserviceaccount.com",
+  "client_id": "104869504723769023430",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-89svj%40telecare-push-notification.iam.gserviceaccount.com"
+}

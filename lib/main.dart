@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
+import 'package:android_telecare_pkm/providers/notification_provider.dart';
 import 'package:android_telecare_pkm/routes.dart';
 import 'package:android_telecare_pkm/screens/beranda/beranda_screen.dart';
 import 'package:android_telecare_pkm/screens/login/login_screen.dart';
@@ -84,8 +85,22 @@ Future<void> main() async {
   await Firebase.initializeApp();
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_showNotification);
+  // FirebaseMessaging.onBackgroundMessage(
+  //     _showNotification); // ketika tidak membuka aplikasi
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // messaging.getToken().then((value) {
+  //   print('-- TOKEN --');
+  //   print(value);
+  // });
   // FirebaseMessaging.onBackgroundMessage(_messageHandler);
+  // FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+  //   print("message recieved");
+  //   print(event.notification!.body);
+  //   _showNotification2(event.notification!.body.toString());
+  // });
+  // FirebaseMessaging.onMessage.listen(_showNotification);
+  // FirebaseMessaging.onMessageOpenedApp.listen(_showNotification);
+
   final NotificationAppLaunchDetails? notificationAppLaunchDetails = !kIsWeb &&
           Platform.isLinux
       ? null
@@ -153,34 +168,36 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider<LoginUserProvider>(
             create: (_) => LoginUserProvider()),
+        ChangeNotifierProvider<NotificationProvider>(
+            create: (_) => NotificationProvider()),
       ],
-      child: MyApp(notificationAppLaunchDetails),
-      // child: const MyApp(),
+      // child: MyApp(notificationAppLaunchDetails),
+      child: MyApp(flutterLocalNotificationsPlugin),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp(this.notificationAppLaunchDetails, {Key? key}) : super(key: key);
-  final NotificationAppLaunchDetails? notificationAppLaunchDetails;
-  bool get didNotificationLaunchApp =>
-      notificationAppLaunchDetails?.didNotificationLaunchApp ?? false;
+// class MyApp extends StatelessWidget {
+//   const MyApp(this.notificationAppLaunchDetails, {Key? key}) : super(key: key);
+//   final NotificationAppLaunchDetails? notificationAppLaunchDetails;
+//   bool get didNotificationLaunchApp =>
+//       notificationAppLaunchDetails?.didNotificationLaunchApp ?? false;
 
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Telecare Apps',
-      theme: theme(),
-      home: MySecondPage(notificationAppLaunchDetails),
-      routes: routes,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     SystemChrome.setPreferredOrientations([
+//       DeviceOrientation.portraitUp,
+//       DeviceOrientation.portraitDown,
+//     ]);
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Telecare Apps',
+//       theme: theme(),
+//       home: MySecondPage(notificationAppLaunchDetails),
+//       routes: routes,
+//     );
+//   }
+// }
 
 class MySecondPage extends StatefulWidget {
   MySecondPage(this.notificationAppLaunchDetails, {Key? key}) : super(key: key);
@@ -197,18 +214,18 @@ class _MySecondPageState extends State<MySecondPage> {
   @override
   void initState() {
     super.initState();
-    messaging = FirebaseMessaging.instance;
-    messaging.getToken().then((value) {
-      print(value);
-    });
-    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      print("message recieved");
-      print(event.notification!.body);
-      _showNotification2(event.notification!.body.toString());
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('Message clicked!');
-    });
+    // messaging = FirebaseMessaging.instance;
+    // messaging.getToken().then((value) {
+    //   print(value);
+    // });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    //   print("message recieved");
+    //   print(event.notification!.body);
+    //   _showNotification2(event.notification!.body.toString());
+    // });
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   print('Message clicked!');
+    // });
   }
 
   @override
@@ -344,6 +361,28 @@ class _MySecondPageState extends State<MySecondPage> {
 //     );
 //   }
 // }
+
+class MyApp extends StatelessWidget {
+  const MyApp(this.flutterLocalNotificationsPlugin, {Key? key})
+      : super(key: key);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Telecare Apps',
+      theme: theme(),
+      home: SplashScreen(flutterLocalNotificationsPlugin),
+      routes: routes,
+    );
+  }
+}
+
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({Key? key}) : super(key: key);

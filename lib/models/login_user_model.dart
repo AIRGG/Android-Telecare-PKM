@@ -2,38 +2,50 @@
 //
 //     final loginUserModel = loginUserModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
-
-LoginUserModel loginUserModelFromJson(String str) =>
-    LoginUserModel.fromJson(json.decode(str));
-
-String loginUserModelToJson(LoginUserModel data) => json.encode(data.toJson());
 
 class LoginUserModel {
   LoginUserModel({
-    required this.username,
-    required this.password,
-    required this.role,
-    required this.name,
+    this.username,
+    this.password,
+    this.role,
+    this.name,
   });
 
-  late final String username;
-  late final String password;
-  late final String role;
-  late final String name;
+  String? username;
+  String? password;
+  String? role;
+  String? name;
+
+  LoginUserModel copyWith({
+    String? username,
+    String? password,
+    String? role,
+    String? name,
+  }) =>
+      LoginUserModel(
+        username: username ?? this.username,
+        password: password ?? this.password,
+        role: role ?? this.role,
+        name: name ?? this.name,
+      );
+
+  factory LoginUserModel.fromRawJson(String str) =>
+      LoginUserModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory LoginUserModel.fromJson(Map<String, dynamic> json) => LoginUserModel(
-        username: json["username"],
-        password: json["password"],
-        role: json["role"],
-        name: json["name"],
+        username: json["username"] == null ? null : json["username"],
+        password: json["password"] == null ? null : json["password"],
+        role: json["role"] == null ? null : json["role"],
+        name: json["name"] == null ? null : json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "username": username,
-        "password": password,
-        "role": role,
-        "name": name,
+        "username": username == null ? null : username,
+        "password": password == null ? null : password,
+        "role": role == null ? null : role,
+        "name": name == null ? null : name,
       };
 }

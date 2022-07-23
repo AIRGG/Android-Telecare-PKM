@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:android_telecare_pkm/models/login_user_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/utils/http_util.dart';
@@ -6,33 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-final AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
-final InitializationSettings initializationSettings =
-    InitializationSettings(android: initializationSettingsAndroid);
-String? selectedNotificationPayload;
-final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-    BehaviorSubject<ReceivedNotification>();
-
-final BehaviorSubject<String?> selectNotificationSubject =
-    BehaviorSubject<String?>();
-
-class ReceivedNotification {
-  ReceivedNotification({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.payload,
-  });
-
-  final int id;
-  final String? title;
-  final String? body;
-  final String? payload;
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginBody extends StatefulWidget {
   LoginBody({Key? key}) : super(key: key);
@@ -42,6 +18,8 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   Future<void> handleLogin() async {
     try {
       Map res = await HttpUtil().req("/login", body: {
@@ -55,26 +33,13 @@ class _LoginBodyState extends State<LoginBody> {
     }
   }
 
-  Future<void> _showNotification() async {
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
-      if (payload != null) {
-        debugPrint('notification payload: $payload');
-      }
-      selectedNotificationPayload = payload;
-      selectNotificationSubject.add(payload);
-    });
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+  Future<void> handleLoginEx(LoginUserModel itemUserLogin) async {
+    final SharedPreferences prefs = await _prefs;
+    // String itemJson = json.encode(itemUserLogin.toJson());
+    await prefs.setString("user", itemUserLogin.toRawJson());
+    String isi = prefs.getString("user").toString();
+    print(isi);
+    Navigator.pushNamedAndRemoveUntil(context, '/beranda', (route) => false);
   }
 
   @override
@@ -120,7 +85,7 @@ class _LoginBodyState extends State<LoginBody> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {
+        onPressed: () async {
           itemUserLogin = LoginUserModel(
               username: 'budi',
               password: '123',
@@ -128,8 +93,9 @@ class _LoginBodyState extends State<LoginBody> {
               name: 'Budiantoro');
           providerLoginUser.itemUserLogin = itemUserLogin;
           // Navigator.pushReplacementNamed(context, '/beranda');
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/beranda', (route) => false);
+          await handleLoginEx(itemUserLogin);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, '/beranda', (route) => false);
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,
@@ -165,8 +131,7 @@ class _LoginBodyState extends State<LoginBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          // handleLogin();
-          _showNotification();
+          handleLogin();
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Color kAppPrimaryColor = Colors.grey.shade200;
 Color kWhite = Colors.white;
@@ -106,13 +107,20 @@ class AvatarImage extends StatelessWidget {
 }
 
 class ProfileListItems extends StatelessWidget {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  void handleLogout(BuildContext context) async {
+    SharedPreferences prefs = await _prefs;
+    prefs.remove("user");
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView(
         children: <Widget>[
           InkWell(
-            onTap: () => {Navigator.pushReplacementNamed(context, '/login')},
+            onTap: () => handleLogout(context),
             child: ProfileListItem(
               icon: Icons.logout,
               text: 'Logout',

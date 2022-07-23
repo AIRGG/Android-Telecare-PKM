@@ -1,5 +1,7 @@
 import 'package:android_telecare_pkm/models/login_user_model.dart';
+import 'package:android_telecare_pkm/models/notification_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
+import 'package:android_telecare_pkm/providers/notification_provider.dart';
 import 'package:android_telecare_pkm/screens/beranda/components/beranda_body.dart';
 import 'package:android_telecare_pkm/screens/manage_user/manage_user_screen.dart';
 import 'package:android_telecare_pkm/screens/profile/profile_screen.dart';
@@ -8,9 +10,11 @@ import 'package:android_telecare_pkm/screens/riwayat_medis/riwayat_medis_screen.
 import 'package:android_telecare_pkm/size_config.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 class BerandaScreen extends StatefulWidget {
@@ -36,10 +40,73 @@ class _BerandaScreenState extends State<BerandaScreen>
 
   final widgetList = <Widget>[BerandaBody(), RiwayatMedisScreen()];
   // final widgetList = <Widget>[BerandaBody(), ProfileScreen()];
+  Future<void> _showNotification2(String msg) async {
+    var providerNotification =
+        Provider.of<NotificationProvider>(context, listen: false);
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        providerNotification.itemLocalNotification;
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'plain title', msg, platformChannelSpecifics,
+        payload: 'item x');
+  }
+
+  Future<void> _showNotification(RemoteMessage message) async {
+// Future<void> _showNotification() async {
+    var providerNotification =
+        Provider.of<NotificationProvider>(context, listen: false);
+    NotificationModel notifModel = NotificationModel();
+    List<NotificationModel> listNotifModel =
+        providerNotification.listNotification;
+    notifModel.title = message.notification?.title;
+    notifModel.body = message.notification?.body;
+    listNotifModel.add(notifModel);
+    providerNotification.listNotification = listNotifModel;
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        providerNotification.itemLocalNotification;
+    print("-- HERE BOSS --");
+    print(providerNotification.listNotification.length);
+    print(listNotifModel.length);
+
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(0, 'plain title',
+        'plain body ${message.notification!.body}', platformChannelSpecifics,
+        payload: 'item x');
+  }
 
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.onBackgroundMessage(
+        _showNotification); // ketika tidak membuka aplikasi
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    messaging.getToken().then((value) {
+      print('-- TOKEN --');
+      print(value);
+    });
+    // FirebaseMessaging.onBackgroundMessage(_messageHandler);
+    // FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    //   print("message recieved");
+    //   print(event.notification!.body);
+    //   _showNotification2(event.notification!.body.toString());
+    // });
+    FirebaseMessaging.onMessage.listen(_showNotification);
+    FirebaseMessaging.onMessageOpenedApp.listen(_showNotification);
+
     final systemTheme = SystemUiOverlayStyle.light.copyWith(
       systemNavigationBarColor: HexColor('#373A36'),
       systemNavigationBarIconBrightness: Brightness.light,
@@ -73,14 +140,87 @@ class _BerandaScreenState extends State<BerandaScreen>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     var providerLoginUser = Provider.of<LoginUserProvider>(context);
+    var providerNotification = Provider.of<NotificationProvider>(context);
     LoginUserModel? itemUserLogin;
     itemUserLogin = providerLoginUser.itemUserLogin;
+    // providerNotification.itemLocalNotification;
     return Scaffold(
       appBar: AppBar(
         title: Text('Monitoring'),
         // backgroundColor: HexColor('#235997')
         backgroundColor: Colors.blue,
         actions: <Widget>[
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //   ),
+          //   onPressed: () {
+          //     // do something
+          //     Navigator.pushNamed(context, '/profile');
+          //   },
+          // ),
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  // do something
+                  // Navigator.pushNamed(context, '/profile');
+                  Navigator.pushNamed(context, '/notifications');
+                  // _showNotification2("HELLO dari sini");
+                },
+              ),
+              (providerNotification.listNotification.length == 0)
+                  ? Container()
+                  : Positioned(
+                      child: Stack(
+                      children: <Widget>[
+                        Icon(Icons.brightness_1,
+                            size: 20.0, color: Colors.red[800]),
+                        Positioned(
+                            top: 3.0,
+                            right: 4.0,
+                            child: Center(
+                              child: Text(
+                                providerNotification.listNotification.length
+                                    .toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )),
+                      ],
+                    )),
+            ],
+          ),
+
+          // Stack(children: <Widget>[
+          //   IconButton(
+          //     icon: Icon(
+          //       Icons.notifications,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       // do something
+          //       Navigator.pushNamed(context, '/profile');
+          //     },
+          //   ),
+          //   Positioned(
+          //     // draw a red marble
+          //     top: 0.0,
+          //     right: 8.0,
+          //     child: Container(
+          //       child: Text('3',
+          //           style: TextStyle(
+          //               backgroundColor: Color.fromARGB(255, 243, 103, 33))),
+          //     ),
+          //   )
+          // ]),
           IconButton(
             icon: Icon(
               Icons.account_circle,
@@ -90,7 +230,7 @@ class _BerandaScreenState extends State<BerandaScreen>
               // do something
               Navigator.pushNamed(context, '/profile');
             },
-          )
+          ),
         ],
       ),
       // appBar: null,

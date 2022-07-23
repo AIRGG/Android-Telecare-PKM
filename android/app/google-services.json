@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "431646922547",
+    "firebase_url": "https://telecare-push-notification-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "telecare-push-notification",
+    "storage_bucket": "telecare-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431646922547:android:904fcf521a95763135d046",
+        "android_client_info": {
+          "package_name": "com.example.android_telecare_pkm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431646922547-fe6vjoqoursm8gh54nqajtosgpiiv7al.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl2kzEhirNN6azKMs10q8tl_RRB_pDy_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431646922547-fe6vjoqoursm8gh54nqajtosgpiiv7al.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "431646922547-c3d0uqfmd8bet2fgjm0pl2u71mblsls3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.androidTelecarePkm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

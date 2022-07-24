@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:android_telecare_pkm/models/manage_user_model.dart';
+import 'package:android_telecare_pkm/providers/manage_user_provider.dart';
 import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ManageUserBody extends StatefulWidget {
   ManageUserBody({Key? key}) : super(key: key);
@@ -9,9 +15,15 @@ class ManageUserBody extends StatefulWidget {
 }
 
 class ManageUserBodyState extends State<ManageUserBody> {
+  List<Datum> listUserModel = [];
+
   Future<void> handleGetListUser() async {
     try {
-      Map res = await HttpUtil().reqget("/user", body: {});
+      String res = await HttpUtil().reqget("/user", body: {});
+      ManageUserModel manageUserModel = ManageUserModel.fromRawJson(res);
+      setState(() {
+        listUserModel = manageUserModel.data ?? [];
+      });
       print(res);
     } catch (err) {
       print(err);
@@ -21,14 +33,15 @@ class ManageUserBodyState extends State<ManageUserBody> {
 
   Future<void> handleAddUser() async {
     try {
-      Map res = await HttpUtil().req("/user/create", body: {
-        'name': 'TestAndroid1',
-        'username': 'testandroid1',
-        'handphone': '123456789012',
-        'email': 'testandroid1@gmail.com',
-        'password': '123',
-        'is_admin': '1',
-      });
+      var res = "";
+      // Map res = await HttpUtil().req("/user/create", body: {
+      //   'name': 'TestAndroid1',
+      //   'username': 'testandroid1',
+      //   'handphone': '123456789012',
+      //   'email': 'testandroid1@gmail.com',
+      //   'password': '123',
+      //   'is_admin': '1',
+      // });
       print(res);
     } catch (err) {
       print(err);
@@ -38,14 +51,22 @@ class ManageUserBodyState extends State<ManageUserBody> {
 
   Future<void> handleDeleteUser() async {
     try {
-      Map res = await HttpUtil().req("/user/delete", body: {
-        'id': '5',
-      });
+      var res = "";
+      // Map res = await HttpUtil().req("/user/delete", body: {
+      //   'id': '5',
+      // });
       print(res);
     } catch (err) {
       print(err);
       throw err;
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    handleGetListUser();
+    super.initState();
   }
 
   @override
@@ -57,22 +78,22 @@ class ManageUserBodyState extends State<ManageUserBody> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 30),
-              ElevatedButton(
-                  onPressed: () => {
-                        handleGetListUser(),
-                      },
-                  child: Text('Get Data')),
-              ElevatedButton(
-                  onPressed: () => {
-                        handleAddUser(),
-                      },
-                  child: Text('Add Data')),
-              ElevatedButton(
-                  onPressed: () => {
-                        handleDeleteUser(),
-                      },
-                  child: Text('Delete Data')),
-              ProfileListItems(),
+              // ElevatedButton(
+              //     onPressed: () => {
+              //           handleGetListUser(),
+              //         },
+              //     child: Text('Get Data')),
+              // ElevatedButton(
+              //     onPressed: () => {
+              //           handleAddUser(),
+              //         },
+              //     child: Text('Add Data')),
+              // ElevatedButton(
+              //     onPressed: () => {
+              //           handleDeleteUser(),
+              //         },
+              //     child: Text('Delete Data')),
+              ProfileListItems(listUserModel, context),
             ],
           ),
         )
@@ -87,34 +108,134 @@ final kTitleTextStyle = TextStyle(
 );
 
 class ProfileListItems extends StatelessWidget {
+  const ProfileListItems(this.listUserModel, this.context, {Key? key})
+      : super(key: key);
+  final List<Datum> listUserModel;
+  final BuildContext context;
+
+  Future<void> handleDeleteUser(Datum itemUserModel) async {
+    try {
+      String res = await HttpUtil().req("/user/delete", body: {
+        'id': itemUserModel.id,
+      });
+      print(res);
+      Map<String, dynamic> jsn = json.decode(res);
+      if (jsn['rcode'] == '000') {
+        _alertWarning(jsn['msg'], true);
+      } else {
+        _alertWarning(jsn['msg'], false);
+      }
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  void _alertWarning(String msg, bool valid) {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Pesan",
+      desc: msg,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => {
+            Navigator.pop(context),
+            if (valid)
+              {
+                Navigator.pop(context),
+                Navigator.pushNamed(context, '/manage-user')
+              }
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+      ],
+    ).show();
+  }
+
+  void _alertConfirmation(Datum itemUserModel) {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Pesan",
+      desc: "Yakin?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => {
+            Navigator.pop(context),
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+        DialogButton(
+          child: Text(
+            "Delete",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => {handleDeleteUser(itemUserModel)},
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+      ],
+    ).show();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // var providerManageUser = Provider.of<ManageUserProvider>(context);
+    // Datum itemManageUser = providerManageUser.itemManageUser;
     return Expanded(
-      child: ListView(
-        children: <Widget>[
-          InkWell(
+      child: ListView.builder(
+        itemCount: listUserModel.length,
+        itemBuilder: (BuildContext context, int index) {
+          Datum itemUserModel = listUserModel[index];
+          return InkWell(
+            onLongPress: () {
+              _alertConfirmation(itemUserModel);
+            },
             onTap: () => {
+              // providerManageUser.itemManageUser = itemUserModel,
               // Navigator.pushReplacementNamed(context, '/login')
-              Navigator.pushNamed(context, '/manage-user-detail')
+              Navigator.pushNamed(context, '/manage-user-detail',
+                  arguments: {'item': itemUserModel})
             },
             child: ProfileListItem(
               icon: Icons.person,
-              text: 'Budiantoro',
+              text: (itemUserModel.name).toString(),
               hasNavigation: false,
             ),
-          ),
-          InkWell(
-            onTap: () => {
-              // Navigator.pushReplacementNamed(context, '/login')
-              Navigator.pushNamed(context, '/manage-user-detail')
-            },
-            child: ProfileListItem(
-              icon: Icons.person,
-              text: 'Bambang',
-              hasNavigation: false,
-            ),
-          ),
-        ],
+          );
+        },
+        // children: <Widget>[
+        //   InkWell(
+        //     onTap: () => {
+        //       // Navigator.pushReplacementNamed(context, '/login')
+        //       Navigator.pushNamed(context, '/manage-user-detail')
+        //     },
+        //     child: ProfileListItem(
+        //       icon: Icons.person,
+        //       text: 'Budiantoro',
+        //       hasNavigation: false,
+        //     ),
+        //   ),
+        //   InkWell(
+        //     onTap: () => {
+        //       // Navigator.pushReplacementNamed(context, '/login')
+        //       Navigator.pushNamed(context, '/manage-user-detail')
+        //     },
+        //     child: ProfileListItem(
+        //       icon: Icons.person,
+        //       text: 'Bambang',
+        //       hasNavigation: false,
+        //     ),
+        //   ),
+        // ],
       ),
     );
   }

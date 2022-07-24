@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:android_telecare_pkm/constants.dart';
 
 class HttpUtil {
-  Future<Map> req(String path, {Map? headers, Map? body}) async {
+  Future<String> req(String path, {Map? headers, Map? body}) async {
+    // Future<Map> req(String path, {Map? headers, Map? body}) async {
     HttpClient httpClient = new HttpClient();
     HttpClientResponse response;
     try {
@@ -28,12 +29,14 @@ class HttpUtil {
 
     try {
       HttpClientResponse httpresp = response;
-      print(httpresp.toString());
       String respBody = await httpresp.transform(utf8.decoder).join();
       // String respBody = await response.transform(utf8.decoder).join();
-      var jsonResp = jsonDecode(respBody);
+      // var jsonResp = jsonDecode(respBody);
 
-      return jsonResp;
+      // return jsonResp;
+      // return respBody;
+      print(respBody);
+      return respBody;
     } catch (err) {
       print(err);
       print(err.toString());
@@ -41,7 +44,8 @@ class HttpUtil {
     }
   }
 
-  Future<Map> reqget(String path, {Map? headers, Map? body}) async {
+  Future<String> reqget(String path, {Map? headers, Map? body}) async {
+    // Future<Map> reqget(String path, {Map? headers, Map? body}) async {
     HttpClient httpClient = new HttpClient();
     HttpClientResponse response;
     try {
@@ -62,9 +66,11 @@ class HttpUtil {
 
     try {
       String respBody = await response.transform(utf8.decoder).join();
-      var jsonResp = jsonDecode(respBody);
+      // var jsonResp = jsonDecode(respBody);
 
-      return jsonResp;
+      // return jsonResp;
+      print(respBody);
+      return respBody;
     } catch (err) {
       print(err);
       throw Exception("Error when handling response");

@@ -1,4 +1,8 @@
+import 'package:android_telecare_pkm/models/login_user_model.dart';
+import 'package:android_telecare_pkm/providers/login_user_provider.dart';
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Color kAppPrimaryColor = Colors.grey.shade200;
@@ -43,6 +47,8 @@ class ProfileBody extends StatefulWidget {
 class _ProfileBodyState extends State<ProfileBody> {
   @override
   Widget build(BuildContext context) {
+    var providerLoginUser = Provider.of<LoginUserProvider>(context);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
     return Stack(
       children: <Widget>[
         Padding(
@@ -55,19 +61,19 @@ class _ProfileBodyState extends State<ProfileBody> {
               AvatarImage(),
               SizedBox(height: 30),
               Text(
-                'Budiantoro',
+                (itemUserLogin.data?.name).toString(),
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Poppins"),
               ),
               Text(
-                'nama@gmail.com',
+                (itemUserLogin.data?.email).toString(),
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               SizedBox(height: 15),
               Text(
-                'Keterangan tambahan',
+                '',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontFamily: "Poppins"),
               ),
@@ -109,6 +115,24 @@ class AvatarImage extends StatelessWidget {
 class ProfileListItems extends StatelessWidget {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   void handleLogout(BuildContext context) async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
+    try {
+      String url = '/logout';
+      print(url);
+      String res = await HttpUtil().req(url, body: {
+        'user_id': (itemUserLogin.data?.id),
+        'device_id': (itemUserLogin.data?.deviceIdTemp).toString()
+      });
+      print('-- resnya token --');
+      print(res);
+      // setState(() {
+      // });
+    } catch (err) {
+      print(err);
+      throw err;
+    }
     SharedPreferences prefs = await _prefs;
     prefs.remove("user");
     Navigator.pushReplacementNamed(context, '/login');

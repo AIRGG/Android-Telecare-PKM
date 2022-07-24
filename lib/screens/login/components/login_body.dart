@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,14 +20,53 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBodyState extends State<LoginBody> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  String txt_email = '';
+  String txt_password = '';
+
+  void _alertWarning() {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "Login Gagal",
+      desc: "Email atau Password Salah!",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+      ],
+    ).show();
+  }
 
   Future<void> handleLogin() async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin;
     try {
-      Map res = await HttpUtil().req("/login", body: {
-        'email': 'alvinrayhan4@gmail.com',
-        'password': 'heartware111'
-      });
-      print(res);
+      String res = await HttpUtil()
+          .req("/login", body: {'email': txt_email, 'password': txt_password});
+      // String res = await HttpUtil().req("/login",body: {'email': 'alvinrayhan4@gmail.com', 'password': 'heartware'});
+      // Map res = await HttpUtil().req("/login", body: {'email': 'alvinrayhan4@gmail.com', 'password': 'heartware'});
+      // print(res);
+      itemUserLogin = LoginUserModel.fromRawJson(res);
+      print('-- rcode --');
+      print(itemUserLogin.rcode);
+      if (itemUserLogin.rcode == '100') {
+        _alertWarning();
+        return;
+      }
+
+      providerLoginUser.itemUserLogin = itemUserLogin;
+      final SharedPreferences prefs = await _prefs;
+      // String itemJson = json.encode(itemUserLogin.toJson());
+      await prefs.setString("user", itemUserLogin.toRawJson());
+      String isi = prefs.getString("user").toString();
+      // Navigator.pushReplacementNamed(context, '/beranda');
+      Navigator.pushReplacementNamed(context, '/beranda');
     } catch (err) {
       print(err);
       throw err;
@@ -67,6 +107,11 @@ class _LoginBodyState extends State<LoginBody> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
+      onChanged: (value) => {
+        setState(() {
+          txt_email = value;
+        })
+      },
     );
 
     final password = TextFormField(
@@ -77,6 +122,11 @@ class _LoginBodyState extends State<LoginBody> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
+      onChanged: (value) => {
+        setState(() {
+          txt_password = value;
+        })
+      },
     );
 
     final loginButton = Padding(
@@ -86,14 +136,29 @@ class _LoginBodyState extends State<LoginBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () async {
-          itemUserLogin = LoginUserModel(
-              username: 'budi',
-              password: '123',
-              role: 'user',
-              name: 'Budiantoro');
-          providerLoginUser.itemUserLogin = itemUserLogin;
-          // Navigator.pushReplacementNamed(context, '/beranda');
-          await handleLoginEx(itemUserLogin);
+          // try {
+          //   Map res = await HttpUtil().req("/login", body: {
+          //     'email': 'alvinrayhan4@gmail.com',
+          //     'password': 'heartware111'
+          //   });
+          //   print(res);
+          // } catch (err) {
+          //   print(err);
+          //   throw err;
+          // }
+          // itemUserLogin = LoginUserModel.fromJson(res['data'])
+          // providerLoginUser.itemUserLogin = itemUserLogin;
+          // label.text = itemUserLogin.name;
+
+          // itemUserLogin = LoginUserModel(
+          //     username: 'budi',
+          //     password: '123',
+          //     role: 'user',
+          //     name: 'Budiantoro');
+          // providerLoginUser.itemUserLogin = itemUserLogin;
+
+          // // Navigator.pushReplacementNamed(context, '/beranda');
+          // await handleLoginEx(itemUserLogin);
           // Navigator.pushNamedAndRemoveUntil(
           //     context, '/beranda', (route) => false);
         },
@@ -109,15 +174,15 @@ class _LoginBodyState extends State<LoginBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          itemUserLogin = LoginUserModel(
-              username: 'admin',
-              password: '123',
-              role: 'admin',
-              name: 'Administrator');
-          providerLoginUser.itemUserLogin = itemUserLogin;
-          // Navigator.pushReplacementNamed(context, '/beranda');
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/beranda', (route) => false);
+          // itemUserLogin = LoginUserModel(
+          //     username: 'admin',
+          //     password: '123',
+          //     role: 'admin',
+          //     name: 'Administrator');
+          // providerLoginUser.itemUserLogin = itemUserLogin;
+          // // Navigator.pushReplacementNamed(context, '/beranda');
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, '/beranda', (route) => false);
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,

@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math' as math;
 
 import 'package:android_telecare_pkm/models/login_user_model.dart';
+import 'package:android_telecare_pkm/models/monitor_dashboard_model.dart';
+import 'package:android_telecare_pkm/models/notification_user_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
+import 'package:android_telecare_pkm/providers/notification_user_provider.dart';
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BerandaBody extends StatefulWidget {
@@ -16,13 +22,19 @@ class BerandaBody extends StatefulWidget {
 
 class _BerandaBodyState extends State<BerandaBody> {
   Timer? timer;
+  Timer? timerDashboard;
   List<_ChartData>? chartData;
   late int count;
   ChartSeriesController? _chartSeriesController;
+  MonitorDashboardModel? monitorDashboardModel;
+  double? monitorSuhu = 0;
+  int? monitorHeartrate = 0;
+  int? monitorSaturasi = 0;
 
   @override
   void dispose() {
     timer?.cancel();
+    timerDashboard?.cancel();
     chartData!.clear();
     _chartSeriesController = null;
     super.dispose();
@@ -32,6 +44,7 @@ class _BerandaBodyState extends State<BerandaBody> {
   void initState() {
     timer =
         Timer.periodic(const Duration(milliseconds: 100), _updateDataSource);
+    timerDashboard = Timer.periodic(const Duration(seconds: 15), getDashboard);
     count = 19;
     chartData = <_ChartData>[
       _ChartData(0, 42),
@@ -54,6 +67,7 @@ class _BerandaBodyState extends State<BerandaBody> {
       _ChartData(17, 72),
       _ChartData(18, 94),
     ];
+    getDashboard(timerDashboard!);
     super.initState();
   }
 
@@ -103,6 +117,51 @@ class _BerandaBodyState extends State<BerandaBody> {
     return min + random.nextInt(max - min);
   }
 
+  Future getNotification() async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    var providerNotifUser =
+        Provider.of<NotificationUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
+    try {
+      String url = '/notification/${itemUserLogin.data!.id}';
+      print(url);
+      String res = await HttpUtil().reqget(url);
+      NotificationUserModel notifuser = NotificationUserModel.fromRawJson(res);
+      providerNotifUser.itemNotification = notifuser;
+      // print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  Future getDashboard(Timer timer) async {
+    try {
+      String url = '/medis/realtime/ajax';
+      print(url);
+      String res = await HttpUtil().reqget(url);
+      setState(() {
+        monitorDashboardModel = MonitorDashboardModel.fromRawJson(res);
+        print(monitorDashboardModel?.data?.suhu?.value);
+        monitorSuhu = (monitorDashboardModel?.data?.suhu?.value)!.toDouble();
+        monitorHeartrate =
+            (monitorDashboardModel?.data?.heartrate?.value)!.toInt();
+        monitorSaturasi =
+            (monitorDashboardModel?.data?.saturasi?.value)!.toInt();
+        // monitorSuhu = double.parse((monitorDashboardModel?.data?.suhu?.value).toString());
+        // monitorHeartrate = int.parse(
+        //     (monitorDashboardModel?.data?.heartrate?.value).toString());
+        // monitorSaturasi = int.parse(
+        //     (monitorDashboardModel?.data?.saturasi?.value).toString());
+      });
+      print(res);
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var providerLoginUser = Provider.of<LoginUserProvider>(context);
@@ -112,6 +171,8 @@ class _BerandaBodyState extends State<BerandaBody> {
     return Container(
       child: ListView(
         children: [
+          // ElevatedButton(
+          //     onPressed: () => {getDashboard()}, child: Text('Notif')),
           SizedBox(
             height: 24,
           ),
@@ -131,10 +192,11 @@ class _BerandaBodyState extends State<BerandaBody> {
               Column(
                 children: [
                   Text(
-                    '36\u2103',
+                    '${monitorSuhu.toString()}\u2103',
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                   ),
-                  Text('Status: Baik')
+                  Text(
+                      'Status: ${((monitorSuhu ?? 0) > 35) ? 'Baik' : 'Bahaya'}')
                 ],
               )
             ],
@@ -157,7 +219,7 @@ class _BerandaBodyState extends State<BerandaBody> {
                   Row(
                     children: [
                       Text(
-                        '65',
+                        '${monitorHeartrate.toString()}',
                         style: TextStyle(
                             fontSize: 50, fontWeight: FontWeight.bold),
                       ),
@@ -189,7 +251,7 @@ class _BerandaBodyState extends State<BerandaBody> {
               Column(
                 children: [
                   Text(
-                    '95%',
+                    '${monitorSaturasi.toString()}%',
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                   ),
                   Text('Status: Baik')

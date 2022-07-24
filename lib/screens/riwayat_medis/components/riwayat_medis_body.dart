@@ -56,7 +56,9 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
       if (ket == 'month') url = 'last30days' + tipe;
       try {
         // print(url);
-        Map res = await HttpUtil().reqget("/" + url, body: {});
+        // Map res = await HttpUtil().reqget("/" + url, body: {});
+        // Map res = await HttpUtil().reqget("/" + url, body: {});
+        Map res = Map();
         print(res);
         // print(res['data'].values.toList());
         // List<_ChartData> tmp_chartData = <_ChartData>[];

@@ -8,4 +8,4 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 // const LatLng DEST_LOCATION = LatLng(37.335685, -122.0605916);
 
 const String apiUrl =
-    kReleaseMode ? "" : "http://192.168.43.247:8000/api/android";
+    kReleaseMode ? "" : "http://192.168.1.27:8000/api/android";

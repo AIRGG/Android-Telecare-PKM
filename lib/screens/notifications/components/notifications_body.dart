@@ -1,5 +1,10 @@
+import 'package:android_telecare_pkm/models/login_user_model.dart';
 import 'package:android_telecare_pkm/models/notification_model.dart';
+import 'package:android_telecare_pkm/models/notification_user_model.dart';
+import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/providers/notification_provider.dart';
+import 'package:android_telecare_pkm/providers/notification_user_provider.dart';
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,11 +16,59 @@ class NotificationsBody extends StatefulWidget {
 }
 
 class _NotificationsBodyState extends State<NotificationsBody> {
+  Future getNotification() async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    var providerNotifUser =
+        Provider.of<NotificationUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
+    try {
+      String url = '/notification/${itemUserLogin.data!.id}';
+      print(url);
+      String res = await HttpUtil().reqget(url);
+      NotificationUserModel notifuser = NotificationUserModel.fromRawJson(res);
+      // print(res);
+      providerNotifUser.itemNotification = notifuser;
+      // setState(() {
+      // });
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  Future removeNotif(Datum itemNotif) async {
+    var providerNotifUser =
+        Provider.of<NotificationUserProvider>(context, listen: false);
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    try {
+      String url = '/notification/mark-as-read';
+      print(url);
+      String res = await HttpUtil().req(url, body: {
+        'user_id': providerLoginUser.itemUserLogin.data?.id,
+        'id': itemNotif.id
+      });
+      // NotificationUserModel notifuser = NotificationUserModel.fromRawJson(res);
+      // print(res);
+      // providerNotifUser.itemNotification = notifuser;
+      // setState(() {
+      // });
+      getNotification();
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     NotificationProvider providerNotification =
         Provider.of<NotificationProvider>(context);
     List<NotificationModel> listNotif = providerNotification.listNotification;
+    NotificationUserProvider providerNotifUser =
+        Provider.of<NotificationUserProvider>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   // backgroundColor: Colors.white,
@@ -35,17 +88,20 @@ class _NotificationsBodyState extends State<NotificationsBody> {
       // ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return createNotificationListItem(providerNotification, index);
+          return createNotificationListItem(providerNotifUser, index);
         },
-        itemCount: listNotif.length,
+        itemCount: providerNotifUser.itemNotification.data?.length ?? 0,
       ),
     );
   }
 
   createNotificationListItem(
-      NotificationProvider providerNotification, int index) {
-    List<NotificationModel> listNotif = providerNotification.listNotification;
-    NotificationModel itemNotif = listNotif[index];
+      NotificationUserProvider providerNotification, int index) {
+    // List<NotificationModel> listNotif = providerNotification.listNotification;
+    // NotificationModel itemNotif = listNotif[index];
+    List<Datum> listNotif = providerNotification.itemNotification.data ?? [];
+    Datum _itemNotif = providerNotification.itemNotification.data![index];
+    var itemNotif = _itemNotif.data;
     return Dismissible(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
@@ -77,7 +133,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Text(
-                        itemNotif.title.toString(),
+                        itemNotif!.judulPesan.toString(),
                         style: TextStyle(fontWeight: FontWeight.w600),
                         // style: CustomTextStyle.textFormFieldBlack
                         //     .copyWith(color: Colors.black, fontSize: 16),
@@ -93,7 +149,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                   Container(
                     margin: EdgeInsets.only(right: 6),
                     child: Text(
-                      itemNotif.body.toString(),
+                      itemNotif.isiPesan.toString(),
                       softWrap: true,
                       textAlign: TextAlign.start,
                       // style: CustomTextStyle.textFormFieldMedium
@@ -113,7 +169,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
       onDismissed: (DismissDirection direction) {
         // getDummyList().removeAt(index);
         listNotif.removeAt(index);
-        providerNotification.listNotification = listNotif;
+        removeNotif(_itemNotif);
       },
       background: Container(
         color: Colors.red,

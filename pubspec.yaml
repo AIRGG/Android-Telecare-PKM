@@ -42,6 +42,7 @@ dependencies:
   circular_reveal_animation: ^2.0.1
   syncfusion_flutter_charts: ^20.1.61
   shared_preferences: ^2.0.15
+  rflutter_alert: ^2.0.4
 
   firebase_core: ^1.20.0
   firebase_analytics: ^9.2.1

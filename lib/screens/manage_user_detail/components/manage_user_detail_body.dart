@@ -1,4 +1,7 @@
+import 'package:android_telecare_pkm/models/manage_user_model.dart';
+import 'package:android_telecare_pkm/providers/manage_user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Color kAppPrimaryColor = Colors.grey.shade200;
 Color kWhite = Colors.white;
@@ -42,6 +45,11 @@ class ManageUserDetailBody extends StatefulWidget {
 class _ManageUserDetailBodyState extends State<ManageUserDetailBody> {
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+
+    // print(arguments['item']);
+    Datum itemManageUser = arguments['item'];
     return Stack(
       children: <Widget>[
         Padding(
@@ -54,19 +62,19 @@ class _ManageUserDetailBodyState extends State<ManageUserDetailBody> {
               AvatarImage(),
               SizedBox(height: 30),
               Text(
-                'Budiantoro',
+                (itemManageUser.name).toString(),
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Poppins"),
               ),
               Text(
-                'nama@gmail.com',
+                (itemManageUser.email).toString(),
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               SizedBox(height: 15),
               Text(
-                'Keterangan tambahan',
+                '',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontFamily: "Poppins"),
               ),

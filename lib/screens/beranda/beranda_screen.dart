@@ -1,13 +1,16 @@
 import 'package:android_telecare_pkm/models/login_user_model.dart';
 import 'package:android_telecare_pkm/models/notification_model.dart';
+import 'package:android_telecare_pkm/models/notification_user_model.dart';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/providers/notification_provider.dart';
+import 'package:android_telecare_pkm/providers/notification_user_provider.dart';
 import 'package:android_telecare_pkm/screens/beranda/components/beranda_body.dart';
 import 'package:android_telecare_pkm/screens/manage_user/manage_user_screen.dart';
 import 'package:android_telecare_pkm/screens/profile/profile_screen.dart';
 import 'package:android_telecare_pkm/screens/riwayat_medis/components/riwayat_medis_body.dart';
 import 'package:android_telecare_pkm/screens/riwayat_medis/riwayat_medis_screen.dart';
 import 'package:android_telecare_pkm/size_config.dart';
+import 'package:android_telecare_pkm/utils/http_util.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -60,6 +63,7 @@ class _BerandaScreenState extends State<BerandaScreen>
 
   Future<void> _showNotification(RemoteMessage message) async {
 // Future<void> _showNotification() async {
+    await getNotification();
     var providerNotification =
         Provider.of<NotificationProvider>(context, listen: false);
     NotificationModel notifModel = NotificationModel();
@@ -83,20 +87,68 @@ class _BerandaScreenState extends State<BerandaScreen>
             ticker: 'ticker');
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, 'plain title',
-        'plain body ${message.notification!.body}', platformChannelSpecifics,
+    await flutterLocalNotificationsPlugin.show(
+        0,
+        '${message.notification!.title}',
+        '${message.notification!.body}',
+        platformChannelSpecifics,
         payload: 'item x');
+  }
+
+  Future getNotification() async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    var providerNotifUser =
+        Provider.of<NotificationUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
+    try {
+      String url = '/notification/${itemUserLogin.data!.id}';
+      print(url);
+      String res = await HttpUtil().reqget(url);
+      NotificationUserModel notifuser = NotificationUserModel.fromRawJson(res);
+      // print(res);
+      providerNotifUser.itemNotification = notifuser;
+      // setState(() {
+      // });
+    } catch (err) {
+      print(err);
+      throw err;
+    }
+  }
+
+  Future setFcmToken(String? value) async {
+    var providerLoginUser =
+        Provider.of<LoginUserProvider>(context, listen: false);
+    LoginUserModel itemUserLogin = providerLoginUser.itemUserLogin;
+    try {
+      String url = '/store-token';
+      print(url);
+      String res = await HttpUtil().req(url, body: {
+        'user_id': (itemUserLogin.data?.id),
+        'device_id': (itemUserLogin.data?.deviceIdTemp).toString(),
+        'fcm_token': (value).toString()
+      });
+      print('-- resnya token --');
+      print(res);
+      // setState(() {
+      // });
+    } catch (err) {
+      print(err);
+      throw err;
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    getNotification();
     FirebaseMessaging.onBackgroundMessage(
         _showNotification); // ketika tidak membuka aplikasi
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     messaging.getToken().then((value) {
       print('-- TOKEN --');
       print(value);
+      setFcmToken(value);
     });
     // FirebaseMessaging.onBackgroundMessage(_messageHandler);
     // FirebaseMessaging.onMessage.listen((RemoteMessage event) {
@@ -141,7 +193,12 @@ class _BerandaScreenState extends State<BerandaScreen>
     SizeConfig().init(context);
     var providerLoginUser = Provider.of<LoginUserProvider>(context);
     var providerNotification = Provider.of<NotificationProvider>(context);
+    var providerNotifUser = Provider.of<NotificationUserProvider>(context);
     LoginUserModel? itemUserLogin;
+    NotificationUserModel notifUserModel = providerNotifUser.itemNotification;
+    print(notifUserModel.data);
+    int lenNotif =
+        (notifUserModel.data) != null ? notifUserModel.data!.length : 0;
     itemUserLogin = providerLoginUser.itemUserLogin;
     // providerNotification.itemLocalNotification;
     return Scaffold(
@@ -174,7 +231,7 @@ class _BerandaScreenState extends State<BerandaScreen>
                   // _showNotification2("HELLO dari sini");
                 },
               ),
-              (providerNotification.listNotification.length == 0)
+              (lenNotif == 0)
                   ? Container()
                   : Positioned(
                       child: Stack(
@@ -186,8 +243,7 @@ class _BerandaScreenState extends State<BerandaScreen>
                             right: 4.0,
                             child: Center(
                               child: Text(
-                                providerNotification.listNotification.length
-                                    .toString(),
+                                lenNotif.toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 11.0,
@@ -238,7 +294,7 @@ class _BerandaScreenState extends State<BerandaScreen>
       //   iconList[_bottomNavIndex],
       // ),
       body: widgetList[_bottomNavIndex],
-      floatingActionButton: (itemUserLogin.role == 'admin')
+      floatingActionButton: (itemUserLogin.data!.isAdmin == 1)
           ? ScaleTransition(
               scale: animation,
               child: FloatingActionButton(
@@ -256,7 +312,7 @@ class _BerandaScreenState extends State<BerandaScreen>
               ),
             )
           : null,
-      floatingActionButtonLocation: (itemUserLogin.role == 'admin')
+      floatingActionButtonLocation: (itemUserLogin.data!.isAdmin == 1)
           ? FloatingActionButtonLocation.centerDocked
           : null,
       bottomNavigationBar: AnimatedBottomNavigationBar(

@@ -119,16 +119,16 @@ class ProfileListItems extends StatelessWidget {
     return Expanded(
       child: ListView(
         children: <Widget>[
-          InkWell(
-            onTap: () => {
-              // Navigator.pushReplacementNamed(context, '/login')
-            },
-            child: ProfileListItem(
-              icon: Icons.clear,
-              text: 'Delete',
-              hasNavigation: false,
-            ),
-          ),
+          // InkWell(
+          //   onTap: () => {
+          //     // Navigator.pushReplacementNamed(context, '/login')
+          //   },
+          //   child: ProfileListItem(
+          //     icon: Icons.clear,
+          //     text: 'Delete',
+          //     hasNavigation: false,
+          //   ),
+          // ),
         ],
       ),
     );

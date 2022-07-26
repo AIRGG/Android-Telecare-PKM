@@ -30,6 +30,11 @@ class _BerandaBodyState extends State<BerandaBody> {
   double? monitorSuhu = 0;
   int? monitorHeartrate = 0;
   int? monitorSaturasi = 0;
+  double? bawahSuhu = 0;
+  double? atasSuhu = 0;
+  double? bawahHeartrate = 0;
+  double? atasHeartrate = 0;
+  double? saturasi = 0;
 
   @override
   void dispose() {
@@ -141,6 +146,7 @@ class _BerandaBodyState extends State<BerandaBody> {
       String url = '/medis/realtime/ajax';
       print(url);
       String res = await HttpUtil().reqget(url);
+      print(res);
       setState(() {
         monitorDashboardModel = MonitorDashboardModel.fromRawJson(res);
         print(monitorDashboardModel?.data?.suhu?.value);
@@ -149,16 +155,26 @@ class _BerandaBodyState extends State<BerandaBody> {
             (monitorDashboardModel?.data?.heartrate?.value)!.toInt();
         monitorSaturasi =
             (monitorDashboardModel?.data?.saturasi?.value)!.toInt();
+
+        bawahSuhu = double.parse(
+            (monitorDashboardModel?.data?.batas?.bawahSuhu).toString());
+        atasSuhu = double.parse(
+            (monitorDashboardModel?.data?.batas?.atasSuhu).toString());
+        bawahHeartrate = double.parse(
+            (monitorDashboardModel?.data?.batas?.bawahHeartrate).toString());
+        atasHeartrate = double.parse(
+            (monitorDashboardModel?.data?.batas?.atasHeartrate).toString());
+        saturasi = double.parse(
+            (monitorDashboardModel?.data?.batas?.saturasi).toString());
         // monitorSuhu = double.parse((monitorDashboardModel?.data?.suhu?.value).toString());
         // monitorHeartrate = int.parse(
         //     (monitorDashboardModel?.data?.heartrate?.value).toString());
         // monitorSaturasi = int.parse(
         //     (monitorDashboardModel?.data?.saturasi?.value).toString());
       });
-      print(res);
     } catch (err) {
       print(err);
-      throw err;
+      // throw err;
     }
   }
 
@@ -196,7 +212,7 @@ class _BerandaBodyState extends State<BerandaBody> {
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                      'Status: ${((monitorSuhu ?? 0) > 35) ? 'Baik' : 'Bahaya'}')
+                      'Status: ${((monitorSuhu ?? 0) >= bawahSuhu! && (monitorSuhu ?? 0) <= atasSuhu!) ? 'Baik' : 'Bahaya'}')
                 ],
               )
             ],
@@ -230,7 +246,8 @@ class _BerandaBodyState extends State<BerandaBody> {
                       ),
                     ],
                   ),
-                  Text('Status: Baik')
+                  Text(
+                      'Status: ${((monitorHeartrate ?? 0) >= bawahHeartrate! && (monitorSuhu ?? 0) <= atasHeartrate!) ? 'Baik' : 'Bahaya'}')
                 ],
               )
             ],
@@ -254,7 +271,8 @@ class _BerandaBodyState extends State<BerandaBody> {
                     '${monitorSaturasi.toString()}%',
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                   ),
-                  Text('Status: Baik')
+                  Text(
+                      'Status: ${((monitorSaturasi ?? 0) >= saturasi!) ? 'Baik' : 'Bahaya'}')
                 ],
               )
             ],

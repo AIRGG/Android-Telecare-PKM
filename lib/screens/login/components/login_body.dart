@@ -200,7 +200,7 @@ class _LoginBodyState extends State<LoginBody> {
         },
         padding: EdgeInsets.all(18),
         color: Colors.blue,
-        child: Text('Log In Admin', style: TextStyle(color: Colors.white)),
+        child: Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
 
@@ -226,8 +226,8 @@ class _LoginBodyState extends State<LoginBody> {
           SizedBox(height: 8.0),
           password,
           SizedBox(height: 24.0),
-          loginButton,
-          loginButtonAdmin,
+          // loginButton,
+          // loginButtonAdmin,
           testingButton,
           forgotLabel,
         ],

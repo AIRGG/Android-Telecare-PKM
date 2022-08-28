@@ -50,10 +50,7 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
   ];
 
   Future<void> handleGetSuhu(
-      {String tipe = 'suhu', String ket = 'day', hari = '1'}) async {
-    // String url = 'lastday' + tipe;
-    // if (ket == 'week') url = 'lastweek' + tipe;
-    // if (ket == 'month') url = 'last30days' + tipe;
+      {String tipe = 'suhu', String ket = 'day', hari = '1'}) async {    
     String url = 'medis/riwayat/${tipe}/${hari}';
     try {
       print(url);
@@ -153,7 +150,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
             minimum: minskala,
             maximum: maxskala),
         series: _getDefaultLineSeries(kat: kat));
-    // series: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A']);
   }
 
   @override
@@ -168,28 +164,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
 
   @override
   Widget build(BuildContext context) {
-    // print(_chartData);
-
-    // return Stack(
-    //   children: <Widget>[
-    //     Padding(
-    //       padding: EdgeInsets.all(25),
-    //       child: Column(
-    //         children: <Widget>[
-    //           // SizedBox(height: 30),
-    //           Text('Hi X')
-    //         ],
-    //       ),
-    //     )
-    //   ],
-    // );
-    // _getChartData();
-    // _timer = Timer(const Duration(seconds: 2), () {
-    //   setState(() {
-    //     _getChartData();
-    //   });
-    // });
-
     return Container(
         child: ListView(children: [
       SizedBox(height: 50.0),
@@ -198,18 +172,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
         children: [
           Column(
             children: [
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'suhu', ket: 'day')},
-              //   child: Text('Suhu day'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'suhu', ket: 'week')},
-              //   child: Text('Suhu week'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'suhu', ket: 'month')},
-              //   child: Text('Suhu month'),
-              // ),
               Text('Suhu Tubuh',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               DropdownButton(
@@ -249,20 +211,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
         children: [
           Column(
             children: [
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'heartrate', ket: 'day')},
-              //   child: Text('Heart day'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () =>
-              //       {handleGetSuhu(tipe: 'heartrate', ket: 'week')},
-              //   child: Text('Heart week'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () =>
-              //       {handleGetSuhu(tipe: 'heartrate', ket: 'month')},
-              //   child: Text('Heart month'),
-              // ),
               Text('Denyut Jantung',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               DropdownButton(
@@ -303,19 +251,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
         children: [
           Column(
             children: [
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'saturasi', ket: 'day')},
-              //   child: Text('Saturasi day'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () => {handleGetSuhu(tipe: 'saturasi', ket: 'week')},
-              //   child: Text('Saturasi week'),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () =>
-              //       {handleGetSuhu(tipe: 'saturasi', ket: 'month')},
-              //   child: Text('Saturasi month'),
-              // ),
               Text('Saturasi Oksigen',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               DropdownButton(
@@ -352,9 +287,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
       _buildAnimationLineChart(kat: "oksigen"),
       SizedBox(height: 50.0),
     ]));
-    // return Container(
-    //   child: _buildAnimationLineChart(kat: "oksigen"),
-    // );
   }
 
   @override
@@ -369,16 +301,6 @@ class _RiwayatMedisBodyState extends State<RiwayatMedisBody> {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
-
-  // void _getChartData() {
-  //   _chartData = <_ChartData>[];
-  //   List arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
-  //   for (int i = 0; i < 11; i++) {
-  //     // _chartData!.add(_ChartData(i.toString(), _getRandomInt(35, 40)));
-  //     // _chartData!.add(_ChartData(arr[i], _getRandomInt(35, 40)));
-  //   }
-  //   _timer?.cancel();
-  // }
 }
 
 class _ChartData {

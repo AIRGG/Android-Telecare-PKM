@@ -49,13 +49,6 @@ class _ForgetPasswordResetBodyState extends State<ForgetPasswordResetBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          // itemUserLogin = LoginUserModel(
-          //     username: 'budi',
-          //     password: '123',
-          //     role: 'user',
-          //     name: 'Budiantoro');
-          // providerLoginUser.itemUserLogin = itemUserLogin;
-          // Navigator.pushReplacementNamed(context, '/beranda');
           Navigator.pushReplacementNamed(context, '/login');
         },
         padding: EdgeInsets.all(18),

@@ -46,7 +46,7 @@ class _SplashBodyState extends State<SplashBody> {
   }
 
   startSplash() async {
-    var duration = const Duration(seconds: 0);
+    var duration = const Duration(seconds: 7);
     return Timer(duration, () {
       // Navigator.pushReplacementNamed(context, "/login");
       cekLogin();

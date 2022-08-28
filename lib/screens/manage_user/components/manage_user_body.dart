@@ -31,37 +31,6 @@ class ManageUserBodyState extends State<ManageUserBody> {
     }
   }
 
-  Future<void> handleAddUser() async {
-    try {
-      var res = "";
-      // Map res = await HttpUtil().req("/user/create", body: {
-      //   'name': 'TestAndroid1',
-      //   'username': 'testandroid1',
-      //   'handphone': '123456789012',
-      //   'email': 'testandroid1@gmail.com',
-      //   'password': '123',
-      //   'is_admin': '1',
-      // });
-      print(res);
-    } catch (err) {
-      print(err);
-      throw err;
-    }
-  }
-
-  Future<void> handleDeleteUser() async {
-    try {
-      var res = "";
-      // Map res = await HttpUtil().req("/user/delete", body: {
-      //   'id': '5',
-      // });
-      print(res);
-    } catch (err) {
-      print(err);
-      throw err;
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -78,21 +47,6 @@ class ManageUserBodyState extends State<ManageUserBody> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 30),
-              // ElevatedButton(
-              //     onPressed: () => {
-              //           handleGetListUser(),
-              //         },
-              //     child: Text('Get Data')),
-              // ElevatedButton(
-              //     onPressed: () => {
-              //           handleAddUser(),
-              //         },
-              //     child: Text('Add Data')),
-              // ElevatedButton(
-              //     onPressed: () => {
-              //           handleDeleteUser(),
-              //         },
-              //     child: Text('Delete Data')),
               ProfileListItems(listUserModel, context),
             ],
           ),
@@ -200,8 +154,6 @@ class ProfileListItems extends StatelessWidget {
               _alertConfirmation(itemUserModel);
             },
             onTap: () => {
-              // providerManageUser.itemManageUser = itemUserModel,
-              // Navigator.pushReplacementNamed(context, '/login')
               Navigator.pushNamed(context, '/manage-user-detail',
                   arguments: {'item': itemUserModel})
             },
@@ -211,31 +163,7 @@ class ProfileListItems extends StatelessWidget {
               hasNavigation: false,
             ),
           );
-        },
-        // children: <Widget>[
-        //   InkWell(
-        //     onTap: () => {
-        //       // Navigator.pushReplacementNamed(context, '/login')
-        //       Navigator.pushNamed(context, '/manage-user-detail')
-        //     },
-        //     child: ProfileListItem(
-        //       icon: Icons.person,
-        //       text: 'Budiantoro',
-        //       hasNavigation: false,
-        //     ),
-        //   ),
-        //   InkWell(
-        //     onTap: () => {
-        //       // Navigator.pushReplacementNamed(context, '/login')
-        //       Navigator.pushNamed(context, '/manage-user-detail')
-        //     },
-        //     child: ProfileListItem(
-        //       icon: Icons.person,
-        //       text: 'Bambang',
-        //       hasNavigation: false,
-        //     ),
-        //   ),
-        // ],
+        },        
       ),
     );
   }

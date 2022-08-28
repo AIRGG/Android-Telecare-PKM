@@ -62,6 +62,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               SizedBox(height: 30),
               Text(
                 (itemUserLogin.data?.name).toString(),
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
@@ -143,6 +144,7 @@ class ProfileListItems extends StatelessWidget {
     return Expanded(
       child: ListView(
         children: <Widget>[
+          TextButton(onPressed: (){Navigator.pushNamed(context, '/pasien');}, child: Text('Profil Pasien')),
           InkWell(
             onTap: () => handleLogout(context),
             child: ProfileListItem(

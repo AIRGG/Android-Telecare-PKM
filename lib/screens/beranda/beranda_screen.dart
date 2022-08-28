@@ -150,12 +150,7 @@ class _BerandaScreenState extends State<BerandaScreen>
       print(value);
       setFcmToken(value);
     });
-    // FirebaseMessaging.onBackgroundMessage(_messageHandler);
-    // FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-    //   print("message recieved");
-    //   print(event.notification!.body);
-    //   _showNotification2(event.notification!.body.toString());
-    // });
+
     FirebaseMessaging.onMessage.listen(_showNotification);
     FirebaseMessaging.onMessageOpenedApp.listen(_showNotification);
 

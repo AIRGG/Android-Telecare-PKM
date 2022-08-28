@@ -49,9 +49,7 @@ class _LoginBodyState extends State<LoginBody> {
     try {
       String res = await HttpUtil()
           .req("/login", body: {'email': txt_email, 'password': txt_password});
-      // String res = await HttpUtil().req("/login",body: {'email': 'alvinrayhan4@gmail.com', 'password': 'heartware'});
-      // Map res = await HttpUtil().req("/login", body: {'email': 'alvinrayhan4@gmail.com', 'password': 'heartware'});
-      // print(res);
+ 
       itemUserLogin = LoginUserModel.fromRawJson(res);
       print('-- rcode --');
       print(itemUserLogin.rcode);
@@ -65,7 +63,6 @@ class _LoginBodyState extends State<LoginBody> {
       // String itemJson = json.encode(itemUserLogin.toJson());
       await prefs.setString("user", itemUserLogin.toRawJson());
       String isi = prefs.getString("user").toString();
-      // Navigator.pushReplacementNamed(context, '/beranda');
       Navigator.pushReplacementNamed(context, '/beranda');
     } catch (err) {
       print(err);
@@ -129,66 +126,6 @@ class _LoginBodyState extends State<LoginBody> {
       },
     );
 
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        onPressed: () async {
-          // try {
-          //   Map res = await HttpUtil().req("/login", body: {
-          //     'email': 'alvinrayhan4@gmail.com',
-          //     'password': 'heartware111'
-          //   });
-          //   print(res);
-          // } catch (err) {
-          //   print(err);
-          //   throw err;
-          // }
-          // itemUserLogin = LoginUserModel.fromJson(res['data'])
-          // providerLoginUser.itemUserLogin = itemUserLogin;
-          // label.text = itemUserLogin.name;
-
-          // itemUserLogin = LoginUserModel(
-          //     username: 'budi',
-          //     password: '123',
-          //     role: 'user',
-          //     name: 'Budiantoro');
-          // providerLoginUser.itemUserLogin = itemUserLogin;
-
-          // // Navigator.pushReplacementNamed(context, '/beranda');
-          // await handleLoginEx(itemUserLogin);
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, '/beranda', (route) => false);
-        },
-        padding: EdgeInsets.all(18),
-        color: Colors.blue,
-        child: Text('Log In', style: TextStyle(color: Colors.white)),
-      ),
-    );
-    final loginButtonAdmin = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        onPressed: () {
-          // itemUserLogin = LoginUserModel(
-          //     username: 'admin',
-          //     password: '123',
-          //     role: 'admin',
-          //     name: 'Administrator');
-          // providerLoginUser.itemUserLogin = itemUserLogin;
-          // // Navigator.pushReplacementNamed(context, '/beranda');
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, '/beranda', (route) => false);
-        },
-        padding: EdgeInsets.all(18),
-        color: Colors.blue,
-        child: Text('Log In Admin', style: TextStyle(color: Colors.white)),
-      ),
-    );
     final testingButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: RaisedButton(
@@ -211,7 +148,16 @@ class _LoginBodyState extends State<LoginBody> {
       ),
       onPressed: () {
         Navigator.pushNamed(context, '/forget-password');
-        // Navigator.pushReplacementNamed(context, '/forget-password');
+      },
+    );
+
+    final registerLabel = FlatButton(
+      child: Text(
+        'Register',
+        style: TextStyle(color: Colors.black54),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/register');
       },
     );
 
@@ -226,10 +172,9 @@ class _LoginBodyState extends State<LoginBody> {
           SizedBox(height: 8.0),
           password,
           SizedBox(height: 24.0),
-          // loginButton,
-          // loginButtonAdmin,
           testingButton,
           forgotLabel,
+          registerLabel,
         ],
       ),
     );

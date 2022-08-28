@@ -6,7 +6,9 @@ import 'package:android_telecare_pkm/screens/login/login_screen.dart';
 import 'package:android_telecare_pkm/screens/manage_user/manage_user_screen.dart';
 import 'package:android_telecare_pkm/screens/manage_user_add/manage_user_add_screen.dart';
 import 'package:android_telecare_pkm/screens/notifications/notifications_screen.dart';
+import 'package:android_telecare_pkm/screens/pasien_profile/pasien_profile_screen.dart';
 import 'package:android_telecare_pkm/screens/profile/profile_screen.dart';
+import 'package:android_telecare_pkm/screens/register/register_screen.dart';
 import 'package:android_telecare_pkm/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,4 +28,6 @@ final Map<String, WidgetBuilder> routes = {
   '/manage-user-detail': (context) => ManageUserDetailScreen(),
   '/riwayat-medis': (context) => RiwayatMedisScreen(),
   '/notifications': (context) => NotificationsScreen(),
+  '/register': (context) => RegisterScreen(),
+  '/pasien': (context) => PasienProfileScreen(),
 };

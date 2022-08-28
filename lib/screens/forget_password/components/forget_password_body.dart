@@ -91,13 +91,6 @@ class _ForgetPasswordBodyState extends State<ForgetPasswordBody> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          // itemUserLogin = LoginUserModel(
-          //     username: 'budi',
-          //     password: '123',
-          //     role: 'user',
-          //     name: 'Budiantoro');
-          // providerLoginUser.itemUserLogin = itemUserLogin;
-          // Navigator.pushNamed(context, '/forget-password-otp');
           sendEmail();
         },
         padding: EdgeInsets.all(18),
@@ -116,13 +109,9 @@ class _ForgetPasswordBodyState extends State<ForgetPasswordBody> {
           email,
           SizedBox(height: 24.0),
           sendemailButton,
-          // loginButtonAdmin,
           // forgotLabel,
         ],
       ),
     );
-    // return Center(
-    //   child: Text('Hai'),
-    // );
   }
 }

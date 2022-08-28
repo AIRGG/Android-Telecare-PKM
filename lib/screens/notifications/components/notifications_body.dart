@@ -49,11 +49,6 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         'user_id': providerLoginUser.itemUserLogin.data?.id,
         'id': itemNotif.id
       });
-      // NotificationUserModel notifuser = NotificationUserModel.fromRawJson(res);
-      // print(res);
-      // providerNotifUser.itemNotification = notifuser;
-      // setState(() {
-      // });
       getNotification();
     } catch (err) {
       print(err);
@@ -70,22 +65,6 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         Provider.of<NotificationUserProvider>(context);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   // backgroundColor: Colors.white,
-      //   title: Text(
-      //     "Notifications",
-      //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      //     // style: CustomTextStyle.textFormFieldBold.copyWith(fontSize: 18),
-      //   ),
-      //   leading: IconButton(
-      //       icon: Icon(
-      //         Icons.arrow_back,
-      //         // color: Colors.black,
-      //       ),
-      //       onPressed: () {
-      //         Navigator.of(context).pop();
-      //       }),
-      // ),
       body: ListView.builder(
         itemBuilder: (context, index) {
           return createNotificationListItem(providerNotifUser, index);
@@ -135,15 +114,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                       Text(
                         itemNotif!.judulPesan.toString(),
                         style: TextStyle(fontWeight: FontWeight.w600),
-                        // style: CustomTextStyle.textFormFieldBlack
-                        //     .copyWith(color: Colors.black, fontSize: 16),
                       ),
-                      // IconButton(
-                      //     icon: Icon(Icons.close),
-                      //     onPressed: () {
-                      //       print("HAI");
-                      //       getDummyList().removeAt(index);
-                      //     }),
                     ],
                   ),
                   Container(
@@ -152,8 +123,6 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                       itemNotif.isiPesan.toString(),
                       softWrap: true,
                       textAlign: TextAlign.start,
-                      // style: CustomTextStyle.textFormFieldMedium
-                      //     .copyWith(color: Colors.grey, fontSize: 12),
                     ),
                   ),
                   Divider(),
@@ -167,7 +136,6 @@ class _NotificationsBodyState extends State<NotificationsBody> {
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
       onDismissed: (DismissDirection direction) {
-        // getDummyList().removeAt(index);
         listNotif.removeAt(index);
         removeNotif(_itemNotif);
       },
@@ -189,12 +157,5 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         ),
       ),
     );
-  }
-
-  static List getDummyList() {
-    List list = List.generate(10, (i) {
-      return "Item ${i + 1}";
-    });
-    return list;
-  }
+  }  
 }

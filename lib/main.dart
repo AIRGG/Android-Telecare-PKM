@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:android_telecare_pkm/providers/login_user_provider.dart';
 import 'package:android_telecare_pkm/providers/notification_provider.dart';
 import 'package:android_telecare_pkm/providers/notification_user_provider.dart';
+import 'package:android_telecare_pkm/providers/pasien_provider.dart';
 import 'package:android_telecare_pkm/routes.dart';
 import 'package:android_telecare_pkm/screens/beranda/beranda_screen.dart';
 import 'package:android_telecare_pkm/screens/login/login_screen.dart';
@@ -173,6 +174,8 @@ Future<void> main() async {
             create: (_) => NotificationProvider()),
         ChangeNotifierProvider<NotificationUserProvider>(
             create: (_) => NotificationUserProvider()),
+        ChangeNotifierProvider<PasienProvider>(
+            create: (_) => PasienProvider()),    
       ],
       // child: MyApp(notificationAppLaunchDetails),
       child: MyApp(flutterLocalNotificationsPlugin),
